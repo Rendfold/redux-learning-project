@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export const FETCH_POSTS = 'fetch_posts';
 export const CREATE_POSTS = 'create_post';
+export const FETCH_POST = 'fetch_post';
+export const DELETE_POST = 'delete_post';
 
 export const HOST_API = 'http://reduxblog.herokuapp.com/api';
 const API_KEY = '?key=Rendfold'
@@ -15,11 +17,29 @@ export function fetchPosts () {
     };
 }
 
-export function createPost (values) {
-    const request = axios.post(`${HOST_API}/posts${API_KEY}`, values);
+export function createPost (values, callback) {
+    const request = axios.post(`${HOST_API}/posts${API_KEY}`, values).then(() => callback());
 
     return {
         type: CREATE_POSTS,
         payload: request
+    };
+}
+
+export function fetchPost (id) {
+    const request = axios.get(`${HOST_API}/posts/${id}${API_KEY}`);
+
+    return {
+        type: FETCH_POST,
+        payload: request
+    };
+}
+
+export function deletePost (id, callback) {
+    const request = axios.delete(`${HOST_API}/posts/${id}${API_KEY}`).then(() => callback());
+
+    return {
+        type: DELETE_POST,
+        payload: id
     };
 }

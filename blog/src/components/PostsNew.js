@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom';
-import { createPosts } from '../actions';
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
     constructor (props) {
         super(props);
-    }
-
-    change () {
-
     }
 
     renderField (field) {
@@ -31,8 +27,10 @@ class PostsNew extends Component {
         )
     }
 
-    onSumbit (values) {
-        this.props.createPosts(values);
+    onSumbit (values) { 
+        this.props.createPost(values, () => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -84,5 +82,5 @@ export default reduxForm({
     validate,
     form: 'PostsNewForm'
 })(
-    connect(null, {createPosts})(PostsNew)
+    connect(null, { createPost })(PostsNew)
 );
